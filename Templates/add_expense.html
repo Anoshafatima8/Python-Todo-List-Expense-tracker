@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow p-4">
+  <h2 class="mb-3 text-center" style="font-family: 'Poppins', sans-serif;">
+    ➕ Add New Expense
+  </h2>
+  <form method="POST">
+    <div class="mb-3">
+      <label class="form-label">Title</label>
+      <input type="text" name="title" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Amount</label>
+      <input type="number" name="amount" class="form-control" step="0.01" required>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Category</label>
+      <select name="category" class="form-select">
+        <option>Food</option>
+        <option>Transport</option>
+        <option>Shopping</option>
+        <option>Bills</option>
+        <option>Other</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-success w-100">
+      <i class="fa fa-save"></i> Save Expense
+    </button>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(120deg, white 0%, lightblue 100%);
+}
+
+.card {
+  border-radius: 15px;
+}
+
+.navbar-brand {
+  color: white !important;
+  font-weight: bold;
+}
+
+.btn {
+  border-radius: 10px;
+}
