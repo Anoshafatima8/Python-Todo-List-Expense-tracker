@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1 class="mb-3">Weather Forecast</h1>
+
+  <form method="POST" class="row g-3 mb-4">
+    <div class="col-auto">
+      <input type="text" class="form-control" name="city" placeholder="Enter city name" required>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-primary">Get Weather</button>
+    </div>
+  </form>
+
+  {% if error %}
+    <div class="alert alert-danger">{{ error }}</div>
+  {% endif %}
+
+  {% if weather %}
+    <div class="card p-3 shadow-sm mb-3">
+      <h3>{{ weather.city }}</h3>
+      <p class="fs-5">{{ weather.temperature }} °C</p>
+      <p>{{ weather.description }}</p>
+      <img src="http://openweathermap.org/img/wn/{{ weather.icon }}@2x.png" alt="icon">
+    </div>
+  {% else %}
+    {% if not error %}
+      <p class="text-muted">Please enter a city above to check the weather.</p>
+    {% endif %}
+  {% endif %}
+
+  <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">⬅ Back to Todo List</a>
+{% endblock %}

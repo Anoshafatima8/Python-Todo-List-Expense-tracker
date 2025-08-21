@@ -1,32 +1,120 @@
-<!doctype html>
+<!doctype html> 
 <html>
   <head>
     <meta charset="utf-8" />
     <title>Flask To-Do</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
     <style>
-      body { font-family: sans-serif; margin: 2rem; }
-      .row { display: flex; align-items: center; gap: .5rem; }
+      body { 
+        font-family: 'Poppins', sans-serif; 
+        margin: 0; 
+        background: #f4f6fa;
+        color: #333;
+        transition: background 0.5s ease;
+      }
+
+      /* Weather backgrounds */
+      body.sunny { background: linear-gradient(135deg, #f9d423, #ff4e50); color: #fff; }
+      body.cloudy { background: linear-gradient(135deg, #bdc3c7, #2c3e50); color: #fff; }
+      body.rainy { background: linear-gradient(135deg, #4e54c8, #8f94fb); color: #fff; }
+      body.clear { background: linear-gradient(135deg, #56ccf2, #2f80ed); color: #fff; }
+
+      header {
+        background: rgba(9,32,97,0.9);
+        color: #fff;
+        padding: 1rem 2rem;
+        text-align: center;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      }
+      h1 { margin: 0; font-weight: 600; }
+      .container {
+        max-width: 900px;
+        margin: 2rem auto;
+        background: #fff;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+      body.sunny .container,
+      body.cloudy .container,
+      body.rainy .container,
+      body.clear .container {
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        backdrop-filter: blur(10px);
+      }
+
+      .row { display: flex; align-items: center; gap: .5rem; margin-bottom: 1rem; }
       .done { text-decoration: line-through; color: #777; }
       .flash-ok { color: green; }
       .flash-error { color: red; }
       form.inline { display: inline; }
-      table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
-      td, th { border: 1px solid #ccc; padding: .5rem; }
-      th { background: #f8f8f8; }
-      button { cursor: pointer; }
+      table { 
+        border-collapse: collapse; 
+        width: 100%; 
+        margin-top: 1rem; 
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      }
+      td, th { padding: .8rem; text-align: center; }
+      th { background: #092061; color: #fff; font-weight: 500; }
+      tr:nth-child(even) { background: #f9f9f9; }
+      button { 
+        cursor: pointer; 
+        background: #092061; 
+        color: white; 
+        border: none; 
+        padding: .4rem .8rem; 
+        border-radius: 5px;
+        font-size: 0.9rem;
+      }
+      button:hover { background: #0b2a85; }
+      input, select {
+        padding: .5rem;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      .footer { margin-top: 2rem; text-align: center; }
+      .footer a { 
+        color: #092061; 
+        text-decoration: none; 
+        font-weight: 600; 
+        padding: .5rem 1rem;
+        border: 2px solid #092061;
+        border-radius: 6px;
+        transition: all 0.3s;
+      }
+      .footer a:hover { 
+        background: #092061;
+        color: #fff;
+      }
     </style>
   </head>
-  <body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul>
-          {% for category, msg in messages %}
-            <li class="flash-{{ category }}">{{ msg }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+  <!-- dynamic class for weather styling -->
+  <body class="{{ body_class|default('') }}">
+    <header>
+      <h1><i class="fa-solid fa-list-check"></i> My To-Do App</h1>
+    </header>
 
-    {% block content %}{% endblock %}
+    <div class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul>
+            {% for category, msg in messages %}
+              <li class="flash-{{ category }}">{{ msg }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
   </body>
 </html>

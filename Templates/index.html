@@ -1,48 +1,32 @@
 {% extends "base.html" %}
-{% block content %}
-  <h1>To-Do List</h1>
 
-  <form method="post" action="{{ url_for('add') }}" class="row">
-    <input name="title" placeholder="New task..." required />
-    <button type="submit">Add</button>
+{% block content %}
+  <h1 class="mb-3">Todo List</h1>
+
+  <form method="POST" class="row g-3 mb-3">
+    <div class="col-auto">
+      <input type="text" name="task" class="form-control" placeholder="Add new task" required>
+    </div>
+    <div class="col-auto">
+      <button type="submit" class="btn btn-success">Add Task</button>
+    </div>
   </form>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Task</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-    {% for t in tasks %}
-      <tr>
-        <td class="{{ 'done' if t.done }}">{{ t.title }}</td>
-        <td>{{ 'Done' if t.done else 'Open' }}</td>
-        <td>
-          {% if not t.done %}
-            <form class="inline" method="post" action="{{ url_for('done', task_id=t.id) }}">
-              <button type="submit">Mark as done</button>
-            </form>
-          {% endif %}
+  {% if tasks %}
+    <ul class="list-group">
+      {% for task in tasks %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {{ task }}
+          <a href="{{ url_for('delete_task', task_id=loop.index0) }}" class="btn btn-sm btn-danger">Delete</a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-muted">No tasks available.</p>
+  {% endif %}
 
-          <form class="inline" method="post" action="{{ url_for('edit', task_id=t.id) }}">
-            <input name="title" placeholder="Edit title" />
-            <button type="submit">Save</button>
-          </form>
-
-          <form class="inline" method="post" action="{{ url_for('delete', task_id=t.id) }}">
-            <button type="submit" onclick="return confirm('Delete this task?')">Delete</button>
-          </form>
-        </td>
-      </tr>
-    {% else %}
-      <tr><td colspan="3">No tasks yet.</td></tr>
-    {% endfor %}
-    </tbody>
-  </table>
-
-  <hr />
-  <p>Try the Weather API: <code>/weather/Karachi</code></p>
+  <hr>
+  <p>🌦️ Want to see the forecast? 
+     <a href="{{ url_for('weather') }}" class="btn btn-primary">Check Weather</a>
+  </p>
 {% endblock %}
