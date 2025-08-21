@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>To-Do List</h1>
+
+  <form method="post" action="{{ url_for('add') }}" class="row">
+    <input name="title" placeholder="New task..." required />
+    <button type="submit">Add</button>
+  </form>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Task</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for t in tasks %}
+      <tr>
+        <td class="{{ 'done' if t.done }}">{{ t.title }}</td>
+        <td>{{ 'Done' if t.done else 'Open' }}</td>
+        <td>
+          {% if not t.done %}
+            <form class="inline" method="post" action="{{ url_for('done', task_id=t.id) }}">
+              <button type="submit">Mark as done</button>
+            </form>
+          {% endif %}
+
+          <form class="inline" method="post" action="{{ url_for('edit', task_id=t.id) }}">
+            <input name="title" placeholder="Edit title" />
+            <button type="submit">Save</button>
+          </form>
+
+          <form class="inline" method="post" action="{{ url_for('delete', task_id=t.id) }}">
+            <button type="submit" onclick="return confirm('Delete this task?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+    {% else %}
+      <tr><td colspan="3">No tasks yet.</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <hr />
+  <p>Try the Weather API: <code>/weather/Karachi</code></p>
+{% endblock %}

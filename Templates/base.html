@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Flask To-Do</title>
+    <style>
+      body { font-family: sans-serif; margin: 2rem; }
+      .row { display: flex; align-items: center; gap: .5rem; }
+      .done { text-decoration: line-through; color: #777; }
+      .flash-ok { color: green; }
+      .flash-error { color: red; }
+      form.inline { display: inline; }
+      table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+      td, th { border: 1px solid #ccc; padding: .5rem; }
+      th { background: #f8f8f8; }
+      button { cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul>
+          {% for category, msg in messages %}
+            <li class="flash-{{ category }}">{{ msg }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </body>
+</html>
